@@ -1,0 +1,53 @@
+# =========================
+# FRONTEND: taski-app (React Native + Expo)
+# =========================
+taski-app/node_modules/
+taski-app/.expo/
+taski-app/.expo-shared/
+taski-app/.vscode/
+taski-app/.cache/
+taski-app/dist/
+taski-app/web-build/
+taski-app/coverage/
+taski-app/*.log
+taski-app/*.env
+taski-app/*.env.*.local
+taski-app/.DS_Store
+
+# Metro & Babel cache
+taski-app/babel.config.js
+taski-app/metro.config.js
+taski-app/**/*.tmp
+taski-app/.babelrc
+taski-app/.expo-shared/assets.json
+
+# iOS/Android build folders (if ejected)
+taski-app/ios/
+taski-app/android/
+
+# ===== BACKEND (taski-be/Taski) =====
+Taski/.idea/
+Taski/.vscode/
+Taski/**/*.suo
+Taski/**/*.user
+Taski/**/*.userosscache
+Taski/**/bin/
+Taski/**/obj/
+Taski/**/*.log
+Taski/**/*.md
+Taski/**/*.env
+Taski/**/secrets.json
+Taski/Taski.sln.docstates
+
+# ===== GENERAL / OS =====
+*.log
+*.tmp
+.DS_Store
+.env
+# =========================
+# General / OS / Tooling
+# =========================
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
