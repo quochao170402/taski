@@ -15,8 +15,6 @@ taski-app/*.env.*.local
 taski-app/.DS_Store
 
 # Metro & Babel cache
-taski-app/babel.config.js
-taski-app/metro.config.js
 taski-app/**/*.tmp
 taski-app/.babelrc
 taski-app/.expo-shared/assets.json
