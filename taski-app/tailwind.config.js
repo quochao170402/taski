@@ -3,7 +3,13 @@ import gluestackPlugin from "@gluestack-ui/nativewind-utils/tailwind-plugin";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "media",
-  content: ["app/**/*.{tsx,jsx,ts,js}", "components/**/*.{tsx,jsx,ts,js}"],
+  content: [
+    "app/**/*.{tsx,jsx,ts,js}",
+    "components/**/*.{tsx,jsx,ts,js}",
+    "features/**/*.{tsx,jsx,ts,js}",
+    "screens/**/*.{tsx,jsx,ts,js}",
+    "assets/**/*.{tsx,jsx,ts,js}",
+  ],
   presets: [require("nativewind/preset")],
   safelist: [
     {
@@ -168,6 +174,10 @@ module.exports = {
           info: "rgb(var(--color-indicator-info)/<alpha-value>)",
           error: "rgb(var(--color-indicator-error)/<alpha-value>)",
         },
+        brand: "#087efe",
+        cardBg: "#f4f6f9",
+        mutedText: "#c7cedc",
+        textDark: "#1a1b3c",
       },
       fontFamily: {
         heading: undefined,

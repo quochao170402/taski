@@ -1,6 +1,11 @@
 import TaskCard from "@/components/common/TaskCard";
+import { Box } from "@/components/ui/box";
+import { Heading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import React from "react";
+import React, { useState } from "react";
+import { ScrollView } from "react-native";
+import Header from "../../../components/common/Header";
 
 const HomeScreen = () => {
   const dummyTasks: Task[] = [
@@ -43,7 +48,8 @@ const HomeScreen = () => {
       id: "6",
       title: "Schedule doctor appointment",
       completed: false,
-      description: "Check availability next week",
+      description:
+        "Check availability next week, Check availability next week, Check availability next week, Check availability next week",
       createdAt: new Date("2025-06-24T12:00:00Z"),
     },
     {
@@ -75,11 +81,56 @@ const HomeScreen = () => {
     },
   ];
 
+  const user: User = {
+    id: "1",
+    name: "Bui Quoc Chao",
+    email: "",
+  };
+
+  const [tasks, setTasks] = useState<Task[]>(dummyTasks);
+  const todoCount = dummyTasks.filter((x) => !x.completed).length;
+
+  const handleToggleTask = (taskId: string, completed: boolean) => {
+    console.log(`Task ${taskId} completed status changed to ${completed}`);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, completed } : task
+      )
+    );
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    console.log(`Task ${taskId} deleted`);
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  };
+
   return (
-    <VStack space="2xl">
-      {dummyTasks.map((x) => (
-        <TaskCard key={x.id} task={x} />
-      ))}
+    <VStack space="2xl" className="flex-1 bg-white px-6">
+      <Header user={user} />
+      <Heading className="text-xl">
+        Welcome, <Text className="text-[#087efe] text-xl">{user.name}</Text>.
+      </Heading>
+      <Text>You’ve got {todoCount} tasks to do.</Text>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName="pb-4"
+      >
+        {/* <GestureHandlerRootView className="flex-1">
+          
+        </GestureHandlerRootView> */}
+
+        <Box className="flex-1 flex-col gap-4">
+          {tasks.map((x) => (
+            <TaskCard
+              key={x.id}
+              task={x}
+              onToggle={handleToggleTask}
+              onDelete={handleDeleteTask}
+            />
+          ))}
+        </Box>
+      </ScrollView>
     </VStack>
   );
 };

@@ -1,45 +1,74 @@
-import { CheckIcon } from "@/components/ui/icon";
+import MoreIcon from "@/assets/icons/MoreIcon";
+import TrashIcon from "@/assets/icons/TrashIcon";
 import React, { useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionContentText,
-  AccordionHeader,
-  AccordionItem,
-} from "../ui/accordion";
+import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { Box } from "../ui/box";
-import {
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-} from "../ui/checkbox";
+import { Heading } from "../ui/heading";
+import { Pressable } from "../ui/pressable";
+import { Text } from "../ui/text";
+import CheckBox from "./CheckBox";
 
 interface Props {
   task: Task;
+  onToggle: (taskId: string, completed: boolean) => void;
+  onDelete: (taskId: string) => void;
 }
 
-const TaskCard = ({ task }: Props) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
-  // Remove checkedIcon, use CheckIcon directly as the component type
+const TaskCard = ({ task, onToggle, onDelete }: Props) => {
+  const [expanded, setExpanded] = useState(false);
+  const [swiped, setSwiped] = useState(false);
+
+  const handleToggleExpand = () => setExpanded((prev) => !prev);
+
+  const renderRightActions = () => (
+    <View className="flex justify-center items-center px-4">
+      <Pressable onPress={() => onDelete(task.id)}>
+        <TrashIcon />
+      </Pressable>
+    </View>
+  );
+
+  const handleSwipeableOpen = () => {
+    setSwiped(true);
+    setExpanded(false);
+  };
+
   return (
-    <Box>
-      <Accordion>
-        <AccordionItem value={""}>
-          <AccordionHeader className="px-4 py-6">
-            <Checkbox value={""}>
-              <CheckboxIndicator>
-                <CheckboxIcon as={CheckIcon} />
-              </CheckboxIndicator>
-              <CheckboxLabel className="text-black">{task.title}</CheckboxLabel>
-            </Checkbox>
-          </AccordionHeader>
-          <AccordionContent>
-            <AccordionContentText />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Box>
+    <GestureHandlerRootView className="flex-1">
+      <Swipeable
+        renderRightActions={renderRightActions}
+        onSwipeableOpen={handleSwipeableOpen}
+        onSwipeableClose={() => setSwiped(false)}
+      >
+        <Box className="flex-row items-start justify-between p-4 bg-cardBg rounded-lg gap-4">
+          <CheckBox
+            checked={task.completed}
+            onChange={() => onToggle(task.id, !task.completed)}
+          />
+
+          <Pressable className="flex-1" onPress={handleToggleExpand}>
+            {/* Title and (conditionally) MoreIcon */}
+            <Box className="flex-row items-start justify-between">
+              <Heading className="text-base font-semibold flex-1">
+                {task.title}
+              </Heading>
+
+              {!swiped && task.description && !expanded && <MoreIcon />}
+            </Box>
+
+            {expanded && task.description && (
+              <Box className="mt-2">
+                <Text className="text-mutedText font-medium text-sm/[18px]">
+                  {task.description}
+                </Text>
+              </Box>
+            )}
+          </Pressable>
+        </Box>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
