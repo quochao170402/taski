@@ -1,11 +1,10 @@
-import TaskCard from "@/components/common/TaskCard";
-import { Box } from "@/components/ui/box";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
 import Header from "../../../components/common/Header";
+import EmptyList from "../components/EmptyList";
+import HomeContainer from "../components/HomeContainer";
 
 const HomeScreen = () => {
   const dummyTasks: Task[] = [
@@ -87,7 +86,7 @@ const HomeScreen = () => {
     email: "",
   };
 
-  const [tasks, setTasks] = useState<Task[]>(dummyTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const todoCount = dummyTasks.filter((x) => !x.completed).length;
 
   const handleToggleTask = (taskId: string, completed: boolean) => {
@@ -112,25 +111,15 @@ const HomeScreen = () => {
       </Heading>
       <Text>You’ve got {todoCount} tasks to do.</Text>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName="pb-4"
-      >
-        {/* <GestureHandlerRootView className="flex-1">
-          
-        </GestureHandlerRootView> */}
-
-        <Box className="flex-1 flex-col gap-4">
-          {tasks.map((x) => (
-            <TaskCard
-              key={x.id}
-              task={x}
-              onToggle={handleToggleTask}
-              onDelete={handleDeleteTask}
-            />
-          ))}
-        </Box>
-      </ScrollView>
+      {tasks.length > 0 ? (
+        <HomeContainer
+          tasks={tasks}
+          onDeleteTask={handleDeleteTask}
+          onToggleTask={handleToggleTask}
+        />
+      ) : (
+        <EmptyList />
+      )}
     </VStack>
   );
 };
